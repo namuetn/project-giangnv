@@ -5,6 +5,8 @@
 
   <body class="goto-here">
 
+    @include('layouts.includes.navbar');
+
     @yield('content')
 
     @include('layouts.includes.footer')
