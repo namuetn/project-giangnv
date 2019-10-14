@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
@@ -35,7 +35,20 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only([
+            'name',
+            'content',
+            'quantity',
+            'price',
+        ]);
+
+        try {
+            $product = Product::create($data);
+        } catch (\Exception $e) {
+            return back()->withInput($data)->with('status', 'Create failed!');
+        }
+
+        return redirect('products/' . $product->id)->with('status', 'Create success!');
     }
 
     /**
