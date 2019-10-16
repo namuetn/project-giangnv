@@ -11,5 +11,6 @@
 <h3>Content: {{ $product->content }}</h3>
 <h3>Quantity: {{ $product->quantity }}</h3>
 <h3>Price: {{ $product->price }}</h3>
+<h3>Created by: {{ $product->user ? $product->user->name : '' }}</h3>
 
 @endsection

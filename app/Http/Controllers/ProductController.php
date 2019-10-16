@@ -43,9 +43,13 @@ class ProductController extends Controller
             'price',
         ]);
 
+        $data['user_id'] = auth()->id();
+
         try {
             $product = Product::create($data);
         } catch (\Exception $e) {
+            \Log::error($e);
+
             return back()->withInput($data)->with('status', 'Create failed!');
         }
 
