@@ -12,9 +12,14 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'name',
         'content',
         'quantity',
         'price',
     ];
+
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
 }
