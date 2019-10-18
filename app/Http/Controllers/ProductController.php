@@ -64,7 +64,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
 
         $data = ['product' => $product];
 
@@ -79,7 +79,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        return view('products.edit', ['product' => $product]);
     }
 
     /**
@@ -89,9 +91,26 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        $data = $request->only([
+            'name',
+            'content',
+            'quantity',
+            'price',
+        ]);
+
+        $product = Product::findOrFail($id);
+
+        try {
+            $product->update($data);
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            return back()->with('status', 'Update faild.');
+        }
+
+        return redirect('products/' . $product->id)->with('status', 'Update success.');
     }
 
     /**
@@ -102,6 +121,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        try {
+            $product->delete();
+        } catch (\Exception $e) {
+            \Log::error($e);
+
+            return back()->with('status', 'Delete faild.');
+        }
+
+        return redirect('products')->with('status', 'Delete success');
     }
 }
