@@ -34,3 +34,23 @@ Route::put('products/{product}', 'ProductController@update')
     ->name('products.update');
 Route::delete('products/{product}', 'ProductController@destroy')
     ->name('products.destroy');
+
+Route::get('/admin', function() {
+    return view('admin.dashboard');
+})->name('dashboard')->middleware('auth');
+
+Route::middleware(['auth'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->namespace('Admin')
+    ->group(function () {
+    // Route::get('/', function () {
+    //     // Uses first & second Middleware
+    // });
+
+    // Route::get('user/profile', function () {
+    //     // Uses first & second Middleware
+    // });
+
+    Route::resource('products', 'ProductController');
+});
