@@ -143,6 +143,13 @@ return [
             'label'       => 4,
             'label_color' => 'success',
         ],
+        [
+            'text'        => 'Categories',
+            'url'         => 'admin/categories',
+            'icon'        => 'far fa-file',
+            'label'       => 4,
+            'label_color' => 'success',
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
