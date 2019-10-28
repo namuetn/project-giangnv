@@ -25,6 +25,7 @@ Route::get('/shop', function () {
 
 Route::get('products', 'ProductController@index')->name('products.index');
 Route::get('products/{product}', 'ProductController@show')->name('products.show');
+Route::post('orders', 'OrderController@store')->name('orders.store');
 
 Route::get('/admin', function() {
     return view('admin.dashboard');
