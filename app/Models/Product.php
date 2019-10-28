@@ -12,6 +12,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
+        'category_id',
         'user_id',
         'name',
         'content',
@@ -25,5 +26,9 @@ class Product extends Model
 
     public function orders() {
         return $this->belongsToMany('App\Models\Order', 'product_order');
+    }
+
+    public function category() {
+        return $this->belongsTo('App\Models\Category');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
@@ -28,7 +29,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $categories = Category::all();
+
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
@@ -40,6 +43,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $data = $request->only([
+            'category_id',
             'name',
             'content',
             'quantity',
@@ -84,8 +88,13 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::findOrFail($id);
+        $categories = Category::all();
+        $data = [
+            'product' => $product,
+            'categories' => $categories,
+        ];
 
-        return view('admin.products.edit', ['product' => $product]);
+        return view('admin.products.edit', $data);
     }
 
     /**
@@ -98,6 +107,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $id)
     {
         $data = $request->only([
+            'category_id',
             'name',
             'content',
             'quantity',

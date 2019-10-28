@@ -9,9 +9,9 @@
 @endif
 
 <h1>Product show page</h1>
-<a href="{{ route('products.edit', $product->id) }}">Edit</a>
+<a href="{{ route('admin.products.edit', $product->id) }}">Edit</a>
 
-<form action="{{ route('products.destroy', $product->id) }}" method="POST">
+<form action="{{ route('admin.products.destroy', $product->id) }}" method="POST">
     @csrf
     @method('DELETE')
     <div class="form-group row mb-0">
@@ -23,6 +23,7 @@
     </div>
 </form>
 
+<h3>Name: {{ $product->category ? $product->category->name : '' }}</h3>
 <h3>Name: {{ $product->name }}</h3>
 <h3>Content: {{ $product->content }}</h3>
 <h3>Quantity: {{ $product->quantity }}</h3>
