@@ -30,6 +30,7 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
+            'category_id' => 'required|integer',
             'name' => [
                 'required',
                 'max:255',
