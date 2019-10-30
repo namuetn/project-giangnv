@@ -33,7 +33,7 @@
                                         </div>
                                     </div>
                                     <p class="bottom-area d-flex px-3">
-                                        <a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+                                        <a href="#" class="add-to-cart text-center py-2 mr-1" data-product-id="{{ $product->id }}"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
                                         <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
                                     </p>
                                 </div>
@@ -49,4 +49,38 @@
         </div>
     </section>
 
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('.add-to-cart').click(function() {
+                var url = '/orders';
+
+                var data = {
+                    'product_id': $(this).data('product-id')
+                };
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    success: function(result) {
+                        $('.cart-number').text('[' + result.quantity + ']');
+                        alert('Order success!');
+                    },
+                    error: function() {
+                        alert('Some went wrong!');
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
