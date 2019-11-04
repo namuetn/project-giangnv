@@ -42,9 +42,9 @@
                 <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
                 <li class="nav-item cta cta-colored">
-                    <a href="cart.html" class="nav-link">
+                    <a href="/cart" class="nav-link">
                         <span class="icon-shopping_cart"></span>
-                        <span class="cart-number">[0]</span>
+                        <span class="cart-number">[{{ showCartQuantity() }}]</span>
                     </a>
                 </li>
             </ul>

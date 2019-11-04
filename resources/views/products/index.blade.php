@@ -76,8 +76,8 @@
                         alert('Order success!');
                     },
                     error: function() {
-                        alert('Some went wrong!');
-                        location.reload();
+                        alert('Please login before order!');
+                        // window.location.href = '/login';
                     }
                 });
             });

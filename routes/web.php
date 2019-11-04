@@ -25,7 +25,13 @@ Route::get('/shop', function () {
 
 Route::get('products', 'ProductController@index')->name('products.index');
 Route::get('products/{product}', 'ProductController@show')->name('products.show');
-Route::post('orders', 'OrderController@store')->name('orders.store');
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('orders', 'OrderController@store')->name('orders.store');
+    Route::get('cart', 'OrderController@showCart')->name('orders.show');
+    Route::post('orders/delete', 'OrderController@destroyProduct')
+        ->name('orders.product.destroy');
+});
 
 Route::get('/admin', function() {
     return view('admin.dashboard');
