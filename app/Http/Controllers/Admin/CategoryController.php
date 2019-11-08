@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Requests\CategoryRequest;
+use Gate;
 
 class CategoryController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+
         $categories = Category::orderBy('created_at', 'desc')->get();
 
         return view('admin.categories.index', ['categories' => $categories]);

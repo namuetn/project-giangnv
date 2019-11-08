@@ -20,7 +20,7 @@
             <th>Category</th>
             <th>Quantity</th>
             <th>Price</th>
-            <th>Created by</th>
+            
             <th>Updated at</th>
             <th>Created at</th>
             <th>Operation</th>
@@ -34,7 +34,7 @@
                 <td>{{ $product->category ? $product->category->name : '' }}</td>
                 <td>{{ $product->quantity }}</td>
                 <td>{{ $product->price }}</td>
-                <td>{{ $product->user_id }}</td>
+                 
                 <td>{{ $product->updated_at }}</td>
                 <td>{{ $product->created_at }}</td>
                 <td>
