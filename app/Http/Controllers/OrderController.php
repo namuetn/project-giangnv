@@ -28,7 +28,7 @@ class OrderController extends Controller
         ];
 
         $order = Order::where('user_id', $currentUserId)
-            ->where('status', 1)
+            ->newOrder()
             ->first();
 
         try {
@@ -94,13 +94,36 @@ class OrderController extends Controller
     public function showCart()
     {
         $currentUser = auth()->user();
-        $order = $currentUser->orders
-            ->where('status', 1)
+        $order = $currentUser->orders()
+            ->newOrder()
             ->first();
 
         return view('orders.show', compact('order'));
     }
 
+    public function update(Request $request)
+    {
+
+        $updateFlag = true;
+        $productId = $request->product_id;
+        $quantity = $request->quantity;
+        $currentUser = auth()->user();
+        $order = $currentUser->orders()->newOrder()->first();
+        try {
+            $order->products()
+                ->updateExistingPivot($productId, ['quantity' => $quantity]);
+            $totalPrice = $this->totalPrice($order);
+            $order->update(['total_price' => $totalPrice]);
+            
+        } catch (\Exception $e) {
+            \Log::error($e);
+            $updateFlag = false;
+        }
+        return response()->json([
+            'status' => $updateFlag,
+            'total_price' => $totalPrice,
+        ]);
+    }
     /**
      * Destroy a product in order
      *
@@ -113,13 +136,14 @@ class OrderController extends Controller
 
         $productId = $request->product_id;
         $currentUser = auth()->user();
-        $order = $currentUser->orders->where('status', 1)->first();
+        $order = $currentUser->orders()->newOrder()->first();
 
         try {
             $order->products()->detach($productId);
 
             $totalPrice = $this->totalPrice($order);
             $order->update(['total_price' => $totalPrice]);
+            
         } catch (\Exception $e) {
             \Log::error($e);
 
@@ -129,6 +153,22 @@ class OrderController extends Controller
         return response()->json([
             'status' => $deleteFlag,
             'total_price' => $totalPrice,
+            'product_quantity' => showCartQuantity(),
         ]);
+    }
+
+    public function confirmCart(Request $request) {
+        
+        $productId = $request->product_id;
+        $currentUser = auth()->user();
+        $order = $currentUser->orders()->newOrder()->first();
+
+        try {
+            $order->update(['status' => 2]);
+        } catch (\Exception $e) {
+             \Log::error($e);
+        }
+
+        return redirect('products/');
     }
 }
